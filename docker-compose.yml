@@ -7,6 +7,17 @@
 # e.g.: QUORUM_TX_MANAGER_DOCKER_IMAGE=quorumengineering/constellation:0.3.2 docker-compose up -d
 # To use Remix, set QUORUM_GETH_ARGS="--rpccorsdomain https://remix.ethereum.org"
 version: "3.6"
+
+x-logging: &default-logging
+  driver: 'splunk'
+  options:
+    splunk-token: 11111111-1111-1111-1111-111111111112
+    splunk-url: 'https://172.16.239.200:8088'
+    splunk-insecureskipverify: 'true'
+    splunk-verify-connection: 'false'
+    splunk-format: 'json'
+    tag: '{{.Name}}-{{.ID}}'
+
 x-quorum-def:
   &quorum-def
   restart: "on-failure"
@@ -65,10 +76,14 @@ x-quorum-def:
         --rpc \
         --rpcaddr 0.0.0.0 \
         --rpcport 8545 \
+        --ws \
+        --wsaddr 0.0.0.0 \
+        --wsorigins "*" \
         --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,${QUORUM_CONSENSUS:-istanbul} \
         --port 21000 \
         --unlock 0 \
         --password /examples/passwords.txt \
+        --ethstats=$$(hostname):secret@172.16.239.200:9002 \
         ${QUORUM_GETH_ARGS:-} $${GETH_ARGS_${QUORUM_CONSENSUS:-istanbul}}
 x-tx-manager-def:
   &tx-manager-def
@@ -161,12 +176,6 @@ x-tx-manager-def:
                   },
                   {
                       "url": "http://txmanager5:9000"
-                  },
-                  {
-                      "url": "http://txmanager6:9000"
-                  },
-                  {
-                      "url": "http://txmanager7:9000"
                   }
               ],
               "keys": {
@@ -254,12 +263,6 @@ x-tx-manager-def:
                },
                {
                    "url": "http://txmanager5:9000"
-               },
-               {
-                   "url": "http://txmanager6:9000"
-               },
-               {
-                   "url": "http://txmanager7:9000"
                }
             ],
             "keys": {
@@ -335,12 +338,6 @@ x-tx-manager-def:
                },
                {
                    "url": "http://txmanager5:9000"
-               },
-               {
-                   "url": "http://txmanager6:9000"
-               },
-               {
-                   "url": "http://txmanager7:9000"
                }
             ],
             "keys": {
@@ -392,6 +389,8 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.11
+    logging: *default-logging
+
   txmanager1:
     << : *tx-manager-def
     hostname: txmanager1
@@ -405,6 +404,8 @@ services:
         ipv4_address: 172.16.239.101
     environment:
       - NODE_ID=1
+    logging: *default-logging
+
   node2:
     << : *quorum-def
     hostname: node2
@@ -421,6 +422,8 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.12
+    logging: *default-logging
+
   txmanager2:
     << : *tx-manager-def
     hostname: txmanager2
@@ -434,6 +437,8 @@ services:
         ipv4_address: 172.16.239.102
     environment:
       - NODE_ID=2
+    logging: *default-logging
+
   node3:
     << : *quorum-def
     hostname: node3
@@ -450,6 +455,8 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.13
+    logging: *default-logging
+
   txmanager3:
     << : *tx-manager-def
     hostname: txmanager3
@@ -463,6 +470,8 @@ services:
         ipv4_address: 172.16.239.103
     environment:
       - NODE_ID=3
+    logging: *default-logging
+
   node4:
     << : *quorum-def
     hostname: node4
@@ -479,6 +488,8 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.14
+    logging: *default-logging
+
   txmanager4:
     << : *tx-manager-def
     hostname: txmanager4
@@ -492,6 +503,8 @@ services:
         ipv4_address: 172.16.239.104
     environment:
       - NODE_ID=4
+    logging: *default-logging
+
   node5:
     << : *quorum-def
     hostname: node5
@@ -508,6 +521,8 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.15
+    logging: *default-logging
+
   txmanager5:
     << : *tx-manager-def
     hostname: txmanager5
@@ -521,64 +536,78 @@ services:
         ipv4_address: 172.16.239.105
     environment:
       - NODE_ID=5
-  node6:
-    << : *quorum-def
-    hostname: node6
+    logging: *default-logging
+  splunk:
+    container_name: splunk
+    image: splunk/splunk:7.2.4
+    environment:
+      - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=changeme
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111112
+      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,https://s3.amazonaws.com/splunk-ethereum/master/ethereum-monitoring-0.1.1.tgz
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.200
     ports:
-      - "22005:8545"
+      - '18000:8000'
+      - '18088:8088'
+    healthcheck:
+      test: ['CMD', 'curl', '-f', 'http://localhost:8000']
+      interval: 5s
+      timeout: 5s
+      retries: 20
+
+  cadivsor:
+    container_name: cadvisor
+    image: google/cadvisor:latest
     volumes:
-      - vol6:/qdata
-      - ./examples/7nodes:/examples:ro
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    command:
+      - --storage_driver=statsd
+      - --storage_driver_host=splunk:8125
+      - --storage_driver_db=docker
+      - --docker_only=true
+      - --enable_load_reader=true
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.201
+    user: root
     depends_on:
-      - txmanager6
-    environment:
-      - PRIVATE_CONFIG=/qdata/tm/tm.ipc
-      - NODE_ID=6
-    networks:
-      quorum-examples-net:
-        ipv4_address: 172.16.239.16
-  txmanager6:
-    << : *tx-manager-def
-    hostname: txmanager6
-    ports:
-      - "9086:9080"
-    volumes:
-      - vol6:/qdata
-      - ./examples/7nodes:/examples:ro
-    networks:
-      quorum-examples-net:
-        ipv4_address: 172.16.239.106
-    environment:
-      - NODE_ID=6
-  node7:
-    << : *quorum-def
-    hostname: node7
-    ports:
-      - "22006:8545"
-    volumes:
-      - vol7:/qdata
-      - ./examples/7nodes:/examples:ro
+      - splunk
+    logging: *default-logging
+
+  ethlogger:
+    image: splunkdlt/ethereum-logger:latest
+    restart: on-failure
     depends_on:
-      - txmanager7
-    environment:
-      - PRIVATE_CONFIG=/qdata/tm/tm.ipc
-      - NODE_ID=7
+      - node1
+      - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.17
-  txmanager7:
-    << : *tx-manager-def
-    hostname: txmanager7
-    ports:
-      - "9087:9080"
+        ipv4_address: 172.16.239.202
     volumes:
-      - vol7:/qdata
-      - ./examples/7nodes:/examples:ro
-    networks:
-      quorum-examples-net:
-        ipv4_address: 172.16.239.107
+      - ./abi:/app/abi
     environment:
-      - NODE_ID=7
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - GETH_WS_HOST=172.16.239.11
+      - GETH_WS_PORT=8546
+    logging: *default-logging
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+        until nc -vz node1 8546
+        do
+          echo "waiting for node1 websocket"
+          sleep 1
+        done
+        node index.js
+
 networks:
   quorum-examples-net:
     driver: bridge
@@ -592,5 +621,3 @@ volumes:
   "vol3":
   "vol4":
   "vol5":
-  "vol6":
-  "vol7":
