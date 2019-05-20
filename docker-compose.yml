@@ -176,6 +176,12 @@ x-tx-manager-def:
                   },
                   {
                       "url": "http://txmanager5:9000"
+                  },
+                  {
+                      "url": "http://txmanager6:9000"
+                  },
+                  {
+                      "url": "http://txmanager7:9000"
                   }
               ],
               "keys": {
@@ -263,6 +269,12 @@ x-tx-manager-def:
                },
                {
                    "url": "http://txmanager5:9000"
+               },
+               {
+                   "url": "http://txmanager6:9000"
+               },
+               {
+                   "url": "http://txmanager7:9000"
                }
             ],
             "keys": {
@@ -338,6 +350,12 @@ x-tx-manager-def:
                },
                {
                    "url": "http://txmanager5:9000"
+               },
+               {
+                   "url": "http://txmanager6:9000"
+               },
+               {
+                   "url": "http://txmanager7:9000"
                }
             ],
             "keys": {
@@ -538,6 +556,72 @@ services:
       - NODE_ID=5
     logging: *default-logging
 
+  node6:
+    << : *quorum-def
+    hostname: node6
+    ports:
+      - "22005:8545"
+    volumes:
+      - vol6:/qdata
+      - ./examples/7nodes:/examples:ro
+    depends_on:
+      - txmanager6
+    environment:
+      - PRIVATE_CONFIG=/qdata/tm/tm.ipc
+      - NODE_ID=6
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.16
+    logging: *default-logging
+
+  txmanager6:
+    << : *tx-manager-def
+    hostname: txmanager6
+    ports:
+      - "9086:9080"
+    volumes:
+      - vol6:/qdata
+      - ./examples/7nodes:/examples:ro
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.106
+    environment:
+      - NODE_ID=6
+    logging: *default-logging
+
+  node7:
+    << : *quorum-def
+    hostname: node7
+    ports:
+      - "22006:8545"
+    volumes:
+      - vol7:/qdata
+      - ./examples/7nodes:/examples:ro
+    depends_on:
+      - txmanager7
+    environment:
+      - PRIVATE_CONFIG=/qdata/tm/tm.ipc
+      - NODE_ID=7
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.17
+    logging: *default-logging
+
+  txmanager7:
+    << : *tx-manager-def
+    hostname: txmanager7
+    ports:
+      - "9087:9080"
+    volumes:
+      - vol7:/qdata
+      - ./examples/7nodes:/examples:ro
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.107
+    environment:
+      - NODE_ID=7
+    logging: *default-logging
+
   splunk:
     container_name: splunk
     image: splunk/splunk:latest
@@ -595,8 +679,8 @@ services:
       - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
       - SPLUNK_HOST=172.16.239.200
       - SPLUNK_PORT=8088
-      - GETH_WS_HOST=172.16.239.11
-      - GETH_WS_PORT=8546
+      - ETH_WS_HOST=172.16.239.11
+      - ETH_WS_PORT=8546
     logging: *default-logging
     entrypoint:
       - /bin/sh
@@ -622,3 +706,5 @@ volumes:
   "vol3":
   "vol4":
   "vol5":
+  "vol6":
+  "vol7":
