@@ -537,14 +537,13 @@ services:
     environment:
       - NODE_ID=5
     logging: *default-logging
+
   splunk:
     container_name: splunk
-    image: splunk/splunk:7.2.4
+    image: splunk/splunk:latest
     environment:
       - SPLUNK_START_ARGS=--accept-license
-      - SPLUNK_PASSWORD=changeme
-      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111112
-      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,https://s3.amazonaws.com/splunk-ethereum/master/ethereum-monitoring-0.1.1.tgz
+      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,http://s3.amazonaws.com/splunk-ethereum/master/ethereum-monitoring-0.1.1.tgz
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.200
@@ -556,6 +555,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
+    volumes:
+      - ./default.yml:/tmp/defaults/default.yml
 
   cadivsor:
     container_name: cadvisor

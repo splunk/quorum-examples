@@ -1,0 +1,80 @@
+splunk:
+  app_paths:
+    default: /opt/splunk/etc/apps
+    httpinput: /opt/splunk/etc/apps/splunk_httpinput
+    idxc: /opt/splunk/etc/master-apps
+    shc: /opt/splunk/etc/shcluster/apps
+  enable_service: false
+  exec: /opt/splunk/bin/splunk
+  group: splunk
+  hec_disabled: 0
+  hec_enableSSL: 1
+  hec_port: 8088
+  hec_token: 11111111-1111-1111-1111-111111111112
+  home: /opt/splunk
+  http_port: 8000
+  idxc:
+    enable: false
+  opt: /opt
+  password: changeme
+  pid: /opt/splunk/var/run/splunk/splunkd.pid
+  s2s_port: 9997
+  secret: null
+  shc:
+    enable: false
+    label: shc_label
+    replication_factor: 3
+    replication_port: 4001
+    secret: lS5aoPDHdganlLBWJP/1DwK0wcHpaJaD
+  smartstore: null
+  svc_port: 8089
+  user: splunk
+  conf:
+    inputs:
+      directory: /opt/splunk/etc/apps/search/local
+      content:
+        udp://8125:
+          connection_host: dns
+          index: metrics
+          sourcetype: statsd
+    indexes:
+      directory: /opt/splunk/etc/apps/search/local
+      content:
+        metrics:
+          coldPath: $SPLUNK_DB/metrics/colddb
+          datatype: metric
+          homePath: $SPLUNK_DB/metrics/db
+          maxTotalDataSizeMB: 512000
+          thawedPath: $SPLUNK_DB/metrics/thaweddb
+          enableDataIntegrityControl: 1
+        logs:
+          coldPath: $SPLUNK_DB/logs/colddb
+          homePath: $SPLUNK_DB/logs/db
+          maxTotalDataSizeMB: 512000
+          thawedPath: $SPLUNK_DB/logs/thaweddb
+          enableDataIntegrityControl: 1
+        metadata:
+          coldPath: $SPLUNK_DB/metadata/colddb
+          homePath: $SPLUNK_DB/metadata/db
+          maxTotalDataSizeMB: 512000
+          thawedPath: $SPLUNK_DB/metadata/thaweddb
+          enableDataIntegrityControl: 1
+        ethereum:
+          coldPath: $SPLUNK_DB/ethereum/colddb
+          homePath: $SPLUNK_DB/ethereum/db
+          maxTotalDataSizeMB: 512000
+          thawedPath: $SPLUNK_DB/ethereum/thaweddb
+          enableDataIntegrityControl: 1
+    dataintegritysetup:
+      directory: /opt/splunk/etc/apps/splunk-data-integrity/local
+      content:
+        dataintegrity:
+          privatekey: "a1d8d650f48bc9744a256bb9575bb174752abc2d65870176c01e7b875305f165"
+          url: "http://172.16.239.11:8545"
+          wallet: "0x497C30Cc30D94CD04A68F4792787abfAFFf88e5d"
+          contract: "0x536Fbb86BA8EA81Fc46dc22F134e13ad1d87bf29"
+    app:
+      directory: /opt/splunk/etc/apps/splunk-data-integrity/local
+      content:
+        install:
+          is_configured: 1
