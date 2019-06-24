@@ -627,7 +627,7 @@ services:
     image: splunk/splunk:latest
     environment:
       - SPLUNK_START_ARGS=--accept-license
-      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,http://s3.amazonaws.com/splunk-ethereum/master/ethereum-monitoring-0.1.1.tgz
+      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,http://s3.amazonaws.com/splunk-ethereum/quorum-monitoring/ethereum-monitoring-0.1.1.tgz
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.200
