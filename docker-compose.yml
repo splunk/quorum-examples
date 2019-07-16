@@ -627,6 +627,8 @@ services:
     image: splunk/splunk:latest
     environment:
       - SPLUNK_START_ARGS=--accept-license
+      - SPLUNK_PASSWORD=changeme
+      - SPLUNK_HEC_TOKEN=00000000-0000-0000-0000-000000000000
       - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,http://s3.amazonaws.com/splunk-ethereum/quorum-monitoring/ethereum-monitoring-0.1.1.tgz
     networks:
       quorum-examples-net:
@@ -639,8 +641,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
-    volumes:
-      - ./default.yml:/tmp/defaults/default.yml
+    # volumes:
+    #   - ./default.yml:/tmp/defaults/default.yml
 
   cadivsor:
     container_name: cadvisor
@@ -666,7 +668,6 @@ services:
 
   ethlogger:
     image: splunkdlt/ethereum-logger:latest
-    restart: on-failure
     depends_on:
       - node1
       - splunk
@@ -679,19 +680,11 @@ services:
       - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
       - SPLUNK_HOST=172.16.239.200
       - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
       - ETH_WS_HOST=172.16.239.11
       - ETH_WS_PORT=8546
-    logging: *default-logging
-    entrypoint:
-      - /bin/sh
-      - -c
-      - |
-        until nc -vz node1 8546
-        do
-          echo "waiting for node1 websocket"
-          sleep 1
-        done
-        node index.js
+      - WEB3_CONN_TIMEOUT=10000
+    # #logging: *default-logging
 
 networks:
   quorum-examples-net:
