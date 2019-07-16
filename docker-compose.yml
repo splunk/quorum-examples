@@ -8,15 +8,16 @@
 # To use Remix, set QUORUM_GETH_ARGS="--rpccorsdomain https://remix.ethereum.org"
 version: "3.6"
 
-x-logging: &default-logging
+x-logging:
+  &default-logging
   driver: 'splunk'
   options:
-    splunk-token: 11111111-1111-1111-1111-111111111112
-    splunk-url: 'https://172.16.239.200:8088'
-    splunk-insecureskipverify: 'true'
-    splunk-verify-connection: 'false'
-    splunk-format: 'json'
-    tag: '{{.Name}}-{{.ID}}'
+    splunk-token: "00000000-0000-0000-0000-000000000000"
+    splunk-url: "https://localhost:18088"
+    splunk-insecureskipverify: "true"
+    splunk-verify-connection: "false"
+    splunk-format: "json"
+    tag: "{{.Name}}-{{.ID}}"
 
 x-quorum-def:
   &quorum-def
@@ -625,6 +626,21 @@ services:
   splunk:
     container_name: splunk
     image: splunk/splunk:latest
+    depends_on:
+      - node1
+      - node2
+      - node3
+      - node4
+      - node5
+      - node6
+      - node7
+      - txmanager1
+      - txmanager2
+      - txmanager3
+      - txmanager4
+      - txmanager5
+      - txmanager6
+      - txmanager7
     environment:
       - SPLUNK_START_ARGS=--accept-license
       - SPLUNK_PASSWORD=changeme
@@ -641,8 +657,8 @@ services:
       interval: 5s
       timeout: 5s
       retries: 20
-    # volumes:
-    #   - ./default.yml:/tmp/defaults/default.yml
+    volumes:
+      - ./default.yml:/tmp/defaults/default.yml
 
   cadivsor:
     container_name: cadvisor
@@ -684,7 +700,7 @@ services:
       - ETH_WS_HOST=172.16.239.11
       - ETH_WS_PORT=8546
       - WEB3_CONN_TIMEOUT=10000
-    # #logging: *default-logging
+    logging: *default-logging
 
 networks:
   quorum-examples-net:
