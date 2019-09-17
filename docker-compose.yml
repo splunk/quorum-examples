@@ -700,6 +700,7 @@ services:
       - ETH_WS_HOST=172.16.239.11
       - ETH_WS_PORT=8546
       - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
     logging: *default-logging
 
 networks:
