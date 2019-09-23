@@ -757,7 +757,12 @@ services:
     user: root
     depends_on:
       - splunk
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:cadvisor"
+        splunk-source: cadvisor
 
   ethlogger:
     image: jeffywu/ethereum-logger:beta
@@ -778,7 +783,12 @@ services:
       - ETH_WS_PORT=8546
       - WEB3_CONN_TIMEOUT=10000
       - QUORUM=true
-    logging: *default-loggingg
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: eth-logger
 
 networks:
   quorum-examples-net:
