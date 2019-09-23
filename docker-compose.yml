@@ -418,6 +418,8 @@ services:
     volumes:
       - vol1:/qdata
       - ./examples/7nodes:/examples:ro
+    depends_on:
+      - splunk
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.101
@@ -448,6 +450,8 @@ services:
     hostname: txmanager2
     ports:
       - "9082:9080"
+    depends_on:
+      - splunk
     volumes:
       - vol2:/qdata
       - ./examples/7nodes:/examples:ro
@@ -481,6 +485,8 @@ services:
     hostname: txmanager3
     ports:
       - "9083:9080"
+    depends_on:
+      - splunk
     volumes:
       - vol3:/qdata
       - ./examples/7nodes:/examples:ro
@@ -514,6 +520,8 @@ services:
     hostname: txmanager4
     ports:
       - "9084:9080"
+    depends_on:
+      - splunk
     volumes:
       - vol4:/qdata
       - ./examples/7nodes:/examples:ro
@@ -545,6 +553,8 @@ services:
   txmanager5:
     << : *tx-manager-def
     hostname: txmanager5
+    depends_on:
+      - splunk
     ports:
       - "9085:9080"
     volumes:
@@ -578,6 +588,8 @@ services:
   txmanager6:
     << : *tx-manager-def
     hostname: txmanager6
+    depends_on:
+      - splunk
     ports:
       - "9086:9080"
     volumes:
@@ -611,6 +623,8 @@ services:
   txmanager7:
     << : *tx-manager-def
     hostname: txmanager7
+    depends_on:
+      - splunk
     ports:
       - "9087:9080"
     volumes:
@@ -626,21 +640,6 @@ services:
   splunk:
     container_name: splunk
     image: splunk/splunk:latest
-    depends_on:
-      - node1
-      - node2
-      - node3
-      - node4
-      - node5
-      - node6
-      - node7
-      - txmanager1
-      - txmanager2
-      - txmanager3
-      - txmanager4
-      - txmanager5
-      - txmanager6
-      - txmanager7
     environment:
       - SPLUNK_START_ARGS=--accept-license
       - SPLUNK_PASSWORD=changeme
