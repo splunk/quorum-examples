@@ -402,6 +402,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager1
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=1
@@ -437,6 +438,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager2
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=2
@@ -472,6 +474,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager3
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=3
@@ -507,6 +510,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager4
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=4
@@ -542,6 +546,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager5
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=5
@@ -577,6 +582,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager6
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=6
@@ -612,6 +618,7 @@ services:
       - ./examples/7nodes:/examples:ro
     depends_on:
       - txmanager7
+      - splunk
     environment:
       - PRIVATE_CONFIG=/qdata/tm/tm.ipc
       - NODE_ID=7
