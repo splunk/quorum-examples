@@ -779,7 +779,7 @@ services:
       - SPLUNK_HOST=172.16.239.200
       - SPLUNK_PORT=8088
       - SPLUNK_INDEX=ethereum
-      - ETH_WS_HOST=173.16.239.11
+      - ETH_WS_HOST=172.16.239.11
       - ETH_WS_PORT=8546
       - WEB3_CONN_TIMEOUT=10000
       - QUORUM=true
