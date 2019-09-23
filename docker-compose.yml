@@ -11,13 +11,14 @@ version: "3.6"
 x-logging:
   &default-logging
   driver: 'splunk'
-  options:
-    splunk-token: "00000000-0000-0000-0000-000000000000"
-    splunk-url: "https://localhost:18088"
-    splunk-insecureskipverify: "true"
-    splunk-verify-connection: "false"
-    splunk-format: "json"
-    tag: "{{.Name}}-{{.ID}}"
+x-log-opts:
+  &log-opts
+  splunk-token: "00000000-0000-0000-0000-000000000000"
+  splunk-url: "https://localhost:18088"
+  splunk-insecureskipverify: "true"
+  splunk-verify-connection: "false"
+  splunk-format: "json"
+  tag: "{{.Name}}-{{.ID}}"
 
 x-quorum-def:
   &quorum-def
@@ -409,7 +410,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.11
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node1
 
   txmanager1:
     << : *tx-manager-def
@@ -426,7 +432,12 @@ services:
         ipv4_address: 172.16.239.101
     environment:
       - NODE_ID=1
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node1
 
   node2:
     << : *quorum-def
@@ -445,7 +456,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.12
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node1
 
   txmanager2:
     << : *tx-manager-def
@@ -462,7 +478,12 @@ services:
         ipv4_address: 172.16.239.102
     environment:
       - NODE_ID=2
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node2
 
   node3:
     << : *quorum-def
@@ -481,7 +502,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.13
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node3
 
   txmanager3:
     << : *tx-manager-def
@@ -498,7 +524,12 @@ services:
         ipv4_address: 172.16.239.103
     environment:
       - NODE_ID=3
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node3
 
   node4:
     << : *quorum-def
@@ -517,7 +548,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.14
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node4
 
   txmanager4:
     << : *tx-manager-def
@@ -534,7 +570,12 @@ services:
         ipv4_address: 172.16.239.104
     environment:
       - NODE_ID=4
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node4
 
   node5:
     << : *quorum-def
@@ -553,7 +594,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.15
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node5
 
   txmanager5:
     << : *tx-manager-def
@@ -570,7 +616,12 @@ services:
         ipv4_address: 172.16.239.105
     environment:
       - NODE_ID=5
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node5
 
   node6:
     << : *quorum-def
@@ -589,7 +640,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.16
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node6
 
   txmanager6:
     << : *tx-manager-def
@@ -606,7 +662,12 @@ services:
         ipv4_address: 172.16.239.106
     environment:
       - NODE_ID=6
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node6
 
   node7:
     << : *quorum-def
@@ -625,7 +686,12 @@ services:
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.17
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:quorum-node"
+        splunk-source: node7
 
   txmanager7:
     << : *tx-manager-def
@@ -642,7 +708,12 @@ services:
         ipv4_address: 172.16.239.107
     environment:
       - NODE_ID=7
-    logging: *default-logging
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:tessera"
+        splunk-source: node7
 
   splunk:
     container_name: splunk
