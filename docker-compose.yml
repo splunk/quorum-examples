@@ -783,7 +783,7 @@ services:
       - ETH_WS_PORT=8546
       - WEB3_CONN_TIMEOUT=10000
       - QUORUM=true
-      - DEBUG=-trace:*
+      - DEBUG=-*:trace,*
     logging:
       <<: *default-logging
       options:
