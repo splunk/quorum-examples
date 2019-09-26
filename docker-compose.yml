@@ -798,7 +798,7 @@ services:
       - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.202
+        ipv4_address: 172.16.239.203
     volumes:
       - ./abi:/app/abi
     environment:
@@ -825,7 +825,7 @@ services:
       - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.202
+        ipv4_address: 172.16.239.204
     volumes:
       - ./abi:/app/abi
     environment:
@@ -852,7 +852,7 @@ services:
       - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.202
+        ipv4_address: 172.16.239.205
     volumes:
       - ./abi:/app/abi
     environment:
@@ -879,7 +879,7 @@ services:
       - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.202
+        ipv4_address: 172.16.239.206
     volumes:
       - ./abi:/app/abi
     environment:
@@ -906,7 +906,7 @@ services:
       - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.202
+        ipv4_address: 172.16.239.207
     volumes:
       - ./abi:/app/abi
     environment:
@@ -933,7 +933,7 @@ services:
       - splunk
     networks:
       quorum-examples-net:
-        ipv4_address: 172.16.239.202
+        ipv4_address: 172.16.239.208
     volumes:
       - ./abi:/app/abi
     environment:
