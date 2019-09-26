@@ -764,7 +764,7 @@ services:
         splunk-sourcetype: "docker:cadvisor"
         splunk-source: cadvisor
 
-  ethlogger:
+  ethlogger-node1:
     image: jeffywu/ethereum-logger:beta
     depends_on:
       - node1
@@ -789,7 +789,169 @@ services:
       options:
         <<: *log-opts
         splunk-sourcetype: "docker:eth-logger"
-        splunk-source: eth-logger
+        splunk-source: "eth-logger:node1"
+
+  ethlogger-node2:
+    image: jeffywu/ethereum-logger:beta
+    depends_on:
+      - node2
+      - splunk
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.202
+    volumes:
+      - ./abi:/app/abi
+    environment:
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
+      - ETH_WS_HOST=172.16.239.12
+      - ETH_WS_PORT=8546
+      - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
+      - DEBUG=-*:trace,*
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: "eth-logger:node2"
+
+  ethlogger-node3:
+    image: jeffywu/ethereum-logger:beta
+    depends_on:
+      - node3
+      - splunk
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.202
+    volumes:
+      - ./abi:/app/abi
+    environment:
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
+      - ETH_WS_HOST=172.16.239.13
+      - ETH_WS_PORT=8546
+      - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
+      - DEBUG=-*:trace,*
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: "eth-logger:node3"
+
+  ethlogger-node4:
+    image: jeffywu/ethereum-logger:beta
+    depends_on:
+      - node4
+      - splunk
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.202
+    volumes:
+      - ./abi:/app/abi
+    environment:
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
+      - ETH_WS_HOST=172.16.239.14
+      - ETH_WS_PORT=8546
+      - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
+      - DEBUG=-*:trace,*
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: "eth-logger:node4"
+
+  ethlogger-node5:
+    image: jeffywu/ethereum-logger:beta
+    depends_on:
+      - node5
+      - splunk
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.202
+    volumes:
+      - ./abi:/app/abi
+    environment:
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
+      - ETH_WS_HOST=172.16.239.15
+      - ETH_WS_PORT=8546
+      - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
+      - DEBUG=-*:trace,*
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: "eth-logger:node5"
+
+  ethlogger-node6:
+    image: jeffywu/ethereum-logger:beta
+    depends_on:
+      - node6
+      - splunk
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.202
+    volumes:
+      - ./abi:/app/abi
+    environment:
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
+      - ETH_WS_HOST=172.16.239.16
+      - ETH_WS_PORT=8546
+      - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
+      - DEBUG=-*:trace,*
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: "eth-logger:node6"
+
+  ethlogger-node7:
+    image: jeffywu/ethereum-logger:beta
+    depends_on:
+      - node7
+      - splunk
+    networks:
+      quorum-examples-net:
+        ipv4_address: 172.16.239.202
+    volumes:
+      - ./abi:/app/abi
+    environment:
+      - SPLUNK_HEC_TOKEN=11111111-1111-1111-1111-111111111111
+      - SPLUNK_HOST=172.16.239.200
+      - SPLUNK_PORT=8088
+      - SPLUNK_INDEX=ethereum
+      - ETH_WS_HOST=172.16.239.17
+      - ETH_WS_PORT=8546
+      - WEB3_CONN_TIMEOUT=10000
+      - QUORUM=true
+      - DEBUG=-*:trace,*
+    logging:
+      <<: *default-logging
+      options:
+        <<: *log-opts
+        splunk-sourcetype: "docker:eth-logger"
+        splunk-source: "eth-logger:node7"
 
 networks:
   quorum-examples-net:
