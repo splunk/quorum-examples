@@ -81,7 +81,9 @@ x-quorum-def:
         --ws \
         --wsaddr 0.0.0.0 \
         --wsorigins "*" \
+        --metrics \
         --rpcapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,${QUORUM_CONSENSUS:-istanbul} \
+        --wsapi admin,db,eth,debug,miner,net,shh,txpool,personal,web3,quorum,${QUORUM_CONSENSUS:-istanbul} \
         --port 21000 \
         --unlock 0 \
         --password /examples/passwords.txt \
