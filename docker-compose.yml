@@ -724,7 +724,7 @@ services:
       - SPLUNK_START_ARGS=--accept-license
       - SPLUNK_PASSWORD=changeme
       - SPLUNK_HEC_TOKEN=00000000-0000-0000-0000-000000000000
-      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,http://s3.amazonaws.com/splunk-ethereum/quorum-monitoring-v2/ethereum-monitoring-0.1.1.tgz,https://splunk-ethereum.s3.amazonaws.com/force-directed-app-for-splunk_301.tgz,https://splunk-ethereum.s3.amazonaws.com/sankey-diagram-custom-visualization_130.tgz
+      - SPLUNK_APPS_URL=http://s3.amazonaws.com/splunk-hyperledger/splunk-metrics-workspace_101.tgz,http://s3.amazonaws.com/splunk-ethereum/quorum-monitoring-v2/ethereum-monitoring-0.1.1.tgz,https://splunk-ethereum.s3.amazonaws.com/force-directed-app-for-splunk_301.tgz,https://splunk-ethereum.s3.amazonaws.com/sankey-diagram-custom-visualization_130.tgz,https://splunk-ethereum.s3.amazonaws.com/flow-map-viz_130.tgz
     networks:
       quorum-examples-net:
         ipv4_address: 172.16.239.200
