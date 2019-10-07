@@ -767,7 +767,7 @@ services:
         splunk-source: cadvisor
 
   ethlogger-node1:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node1
       - splunk
@@ -795,7 +795,7 @@ services:
         splunk-source: "eth-logger:node1"
 
   ethlogger-node2:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node2
       - splunk
@@ -823,7 +823,7 @@ services:
         splunk-source: "eth-logger:node2"
 
   ethlogger-node3:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node3
       - splunk
@@ -851,7 +851,7 @@ services:
         splunk-source: "eth-logger:node3"
 
   ethlogger-node4:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node4
       - splunk
@@ -879,7 +879,7 @@ services:
         splunk-source: "eth-logger:node4"
 
   ethlogger-node5:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node5
       - splunk
@@ -907,7 +907,7 @@ services:
         splunk-source: "eth-logger:node5"
 
   ethlogger-node6:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node6
       - splunk
@@ -935,7 +935,7 @@ services:
         splunk-source: "eth-logger:node6"
 
   ethlogger-node7:
-    image: splunk/ethereum-logger:latest
+    image: splunkdlt/ethereum-logger:latest
     depends_on:
       - node7
       - splunk
