@@ -8,7 +8,7 @@ var contract = eth.contract(JSON.parse(abi))
 console.log('get bin ')
 var bin = "0x" + contract_json.contracts['src/SimpleEvent.sol:SimpleStoreEvent'].bin
 
-personal.unlockAccount(eth.accounts[0])
+// personal.unlockAccount(eth.accounts[0])
 
 var deployTransationObject = { from: eth.accounts[0], data: bin, gas: 1000000, privateFor: ["ROAZBWtSacxXQrOe3FGAqJDyJjFePR5ce4TSIzmJ0Bc="] };
 var instance = contract.new(16, deployTransationObject,  function(e, contract) {
