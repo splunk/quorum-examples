@@ -7,7 +7,10 @@ do
   echo "Connecting to random node: $NODE"
   docker exec quorum-examples_node${NODE}_1 geth --exec "loadScript('examples/samples/simple-event/private-contract-event.js')" attach qdata/dd/geth.ipc
   docker exec quorum-examples_node${NODE}_1 geth --exec "loadScript('examples/samples/simple-event/public-contract-event.js')" attach qdata/dd/geth.ipc
+  docker exec quorum-examples_node${NODE}_1 geth --exec "loadScript('examples/samples/simple-event/public-generate-events.js')" attach qdata/dd/geth.ipc
+  docker exec quorum-examples_node${NODE}_1 geth --exec "loadScript('examples/samples/simple-event/private-generate-events.js')" attach qdata/dd/geth.ipc
+  docker exec quorum-examples_node${NODE}_1 geth --exec "loadScript('examples/samples/simple-event/private-generate-events.js')" attach qdata/dd/geth.ipc
 
-  echo "Sleeping 3 secs"
-  sleep 3
+  echo "Sleeping 30 secs"
+  sleep 30
 done
