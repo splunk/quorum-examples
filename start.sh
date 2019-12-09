@@ -1,6 +1,7 @@
 #!/bin/bash
 QUORUM_CONSENSUS=raft
 
+docker-compose pull
 docker-compose up -d
 
 docker exec splunk /bin/bash -c ""
