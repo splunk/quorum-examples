@@ -10,7 +10,7 @@ splunk:
   hec_disabled: 0
   hec_enableSSL: 1
   hec_port: 8088
-  hec_token: 11111111-1111-1111-1111-111111111112
+  hec_token: 11111111-1111-1111-1111-111111111111
   home: /opt/splunk
   http_port: 8000
   idxc:
