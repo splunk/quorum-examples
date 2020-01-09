@@ -78,6 +78,7 @@ x-quorum-def:
         --rpc \
         --rpcaddr 0.0.0.0 \
         --rpcport 8545 \
+        --rpcvhosts "*" \
         --ws \
         --wsaddr 0.0.0.0 \
         --wsorigins "*" \
@@ -87,7 +88,6 @@ x-quorum-def:
         --port 21000 \
         --unlock 0 \
         --password /examples/passwords.txt \
-        --ethstats=$$(hostname):secret@172.16.239.200:9002 \
         ${QUORUM_GETH_ARGS:-} $${GETH_ARGS_${QUORUM_CONSENSUS:-istanbul}}
 x-tx-manager-def:
   &tx-manager-def
