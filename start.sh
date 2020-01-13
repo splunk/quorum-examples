@@ -13,8 +13,8 @@ do
 done
 
 echo "Restarting Splunk..."
-docker exec splunk /bin/bash -c 'sudo mv /opt/splunk/etc/apps/ethereum-monitoring/default/inputs.conf.example /opt/splunk/etc/apps/ethereum-monitoring/default/inputs.conf'
-docker exec splunk /bin/bash -c 'sudo mv /opt/splunk/etc/apps/ethereum-monitoring/default/indexes.conf.example /opt/splunk/etc/apps/ethereum-monitoring/default/indexes.conf'
+docker exec splunk /bin/bash -c 'sudo mv /opt/splunk/etc/apps/splunk-app-quorum/default/inputs.conf.example /opt/splunk/etc/apps/splunk-app-quorum/default/inputs.conf'
+docker exec splunk /bin/bash -c 'sudo mv /opt/splunk/etc/apps/splunk-app-quorum/default/indexes.conf.example /opt/splunk/etc/apps/splunk-app-quorum/default/indexes.conf'
 docker exec splunk /bin/bash -c 'sudo /opt/splunk/bin/splunk restart'
 
 echo "Deploying public and private contracts..."
