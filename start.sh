@@ -18,8 +18,8 @@ docker exec splunk /bin/bash -c 'sudo mv /opt/splunk/etc/apps/splunk-app-quorum/
 docker exec splunk /bin/bash -c 'sudo /opt/splunk/bin/splunk restart'
 
 echo "Deploying public and private contracts..."
-docker exec quorum-examples_node1_1 geth --exec "loadScript('examples/private-contract.js')" attach qdata/dd/geth.ipc
-docker exec quorum-examples_node1_1 geth --exec "loadScript('examples/public-contract.js')" attach qdata/dd/geth.ipc
+docker exec quorum-examples_node1_1 geth --exec "loadScript('examples/private-contract.js')" attach qdata/dd/geth.ipc | grep "Address:" | cut -d: -f2 | awk '{$1=$1;print}' > .private-contract
+docker exec quorum-examples_node1_1 geth --exec "loadScript('examples/public-contract.js')" attach qdata/dd/geth.ipc | grep "Address:" | cut -d: -f2 | awk '{$1=$1;print}' > .public-contract
 
 echo "Starting transaction generator in background..."
 nohup ./txns.sh &

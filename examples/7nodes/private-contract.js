@@ -47,3 +47,5 @@ var simple = simpleContract.new(42, {from:web3.eth.accounts[0], data: bytecode, 
 		}
 	}
 });
+
+admin.sleepBlocks(3);
